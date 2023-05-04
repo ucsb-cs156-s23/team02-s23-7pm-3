@@ -1,4 +1,4 @@
-Create database table for Restaurants
+Create database table for AmusementParks
 
 
 # Acceptance Criteria:
