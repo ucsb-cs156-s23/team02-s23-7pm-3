@@ -9,7 +9,7 @@ TODO: Adjust the link to the deployed qa app
 for your team here, then remove this TODO.
 ```
 
-* QA: <https://team02-qa.dokku-xx.cs.ucsb.edu>
+* QA: <https://team02-qa.dokku-11.cs.ucsb.edu>
 
 
 # Configuring GitHub Pages for the documentation
