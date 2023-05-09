@@ -4,11 +4,6 @@
 
 * Production: https://team02-prod.dokku-11.cs.ucsb.edu
 
-```
-TODO: Adjust the link to the deployed qa app 
-for your team here, then remove this TODO.
-```
-
 * QA: <https://team02-qa.dokku-11.cs.ucsb.edu>
 
 
