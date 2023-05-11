@@ -21,6 +21,6 @@ public class IceCreamShop {
   private long id;
 
   private String Name;
-  private boolean Address;
-  private boolean Description;
+  private String Address;
+  private String Description;
 }
