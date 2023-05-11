@@ -96,12 +96,12 @@ public class RestaurantsControllerTests extends ControllerTestCase {
                 when(restaurantsRepository.findById(eq(1l))).thenReturn(Optional.of(restaurant));
 
                 // act
-                MvcResult response = mockMvc.perform(get("/api/restaurants?code=1"))
+                MvcResult response = mockMvc.perform(get("/api/restaurants?id=1"))
                                 .andExpect(status().isOk()).andReturn();
 
                 // assert
 
-                verify(restaurantsRepository, times(1)).findById((long) eq(1));
+                verify(restaurantsRepository, times(1)).findById(eq(1l));
                 String expectedJson = mapper.writeValueAsString(restaurant);
                 String responseString = response.getResponse().getContentAsString();
                 assertEquals(expectedJson, responseString);
@@ -124,7 +124,7 @@ public class RestaurantsControllerTests extends ControllerTestCase {
                 verify(restaurantsRepository, times(1)).findById(eq(23l));
                 Map<String, Object> json = responseToJson(response);
                 assertEquals("EntityNotFoundException", json.get("type"));
-                assertEquals("Restaurant with id 23 not found.", json.get("message"));
+                assertEquals("Restaurant with id 23 not found", json.get("message"));
         }
 
         @WithMockUser(roles = { "USER" })
@@ -180,7 +180,7 @@ public class RestaurantsControllerTests extends ControllerTestCase {
 
                 // act
                 MvcResult response = mockMvc.perform(
-                                post("/api/restaurants/post?id=2&name=Sun_Sushi&address=3631%20State%20St,%20Santa%20Barbara,%20CA%2093105&specialty=Sushi")
+                                post("/api/restaurants/post?id=2&name=Sun Sushi&address=3631 State St, Santa Barbara, CA 93105&specialty=Sushi")
                                                 .with(csrf()))
                                 .andExpect(status().isOk()).andReturn();
 
@@ -207,7 +207,7 @@ public class RestaurantsControllerTests extends ControllerTestCase {
 
                 // act
                 MvcResult response = mockMvc.perform(
-                                delete("/api/ucsbdiningcommons?id=1")
+                                delete("/api/restaurants?id=1")
                                                 .with(csrf()))
                                 .andExpect(status().isOk()).andReturn();
 
@@ -264,7 +264,7 @@ public class RestaurantsControllerTests extends ControllerTestCase {
 
                 // act
                 MvcResult response = mockMvc.perform(
-                                put("/api/restaurants?code=kazunori")
+                                put("/api/restaurants?id=2")
                                                 .contentType(MediaType.APPLICATION_JSON)
                                                 .characterEncoding("utf-8")
                                                 .content(requestBody)
@@ -304,9 +304,9 @@ public class RestaurantsControllerTests extends ControllerTestCase {
                                 .andExpect(status().isNotFound()).andReturn();
 
                 // assert
-                verify(restaurantsRepository, times(1)).findById(123l);
+                verify(restaurantsRepository, times(1)).findById(2l);
                 Map<String, Object> json = responseToJson(response);
-                assertEquals("Restaurant with id 123 not found", json.get("message"));
+                assertEquals("Restaurant with id 2 not found", json.get("message"));
 
         }
 }
