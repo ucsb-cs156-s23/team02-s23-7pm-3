@@ -40,62 +40,50 @@ public class GamesControllerTests extends ControllerTestCase {
         @MockBean
         UserRepository userRepository;
 
-        // Authorization tests for /api/games/admin/all
-
+        @WithMockUser(roles = { "ADMIN", "USER" })
         @Test
-        public void logged_out_users_cannot_get_by_id() throws Exception {
-                mockMvc.perform(get("/api/games?id=7"))
-                                .andExpect(status().is(403)); // logged out users can't get by id
-        }
-
-        // Authorization tests for /api/games/post
-        // (Perhaps should also have these for put and delete)
-
-        // // Tests with mocks for database actions
-
-        @WithMockUser(roles = { "USER" })
-        @Test
-        public void test_that_logged_in_user_can_get_by_id_when_the_id_exists() throws Exception {
-
+        public void admin_can_delete_a_game() throws Exception {
                 // arrange
 
-                Game game = Game.builder()
+                Game game1 = Game.builder()
                                 .name("Bucket Montage")
                                 .creator("Plum")
                                 .genre("RPG")
                                 .build();
 
-                when(gameRepository.findById(eq(7L))).thenReturn(Optional.of(game));
+                when(gameRepository.findById(eq(15L))).thenReturn(Optional.of(game1));
 
                 // act
-                MvcResult response = mockMvc.perform(get("/api/games?id=7"))
+                MvcResult response = mockMvc.perform(
+                                delete("/api/games?id=15")
+                                                .with(csrf()))
                                 .andExpect(status().isOk()).andReturn();
 
                 // assert
+                verify(gameRepository, times(1)).findById(15L);
+                verify(gameRepository, times(1)).delete(any());
 
-                verify(gameRepository, times(1)).findById(eq(7L));
-                String expectedJson = mapper.writeValueAsString(game);
-                String responseString = response.getResponse().getContentAsString();
-                assertEquals(expectedJson, responseString);
+                Map<String, Object> json = responseToJson(response);
+                assertEquals("Game with id 15 deleted", json.get("message"));
         }
 
-        @WithMockUser(roles = { "USER" })
+        @WithMockUser(roles = { "ADMIN", "USER" })
         @Test
-        public void test_that_logged_in_user_can_get_by_id_when_the_id_does_not_exist() throws Exception {
-
+        public void admin_tries_to_delete_non_existant_game_and_gets_right_error_message()
+                        throws Exception {
                 // arrange
 
-                when(gameRepository.findById(eq(7L))).thenReturn(Optional.empty());
+                when(gameRepository.findById(eq(15L))).thenReturn(Optional.empty());
 
                 // act
-                MvcResult response = mockMvc.perform(get("/api/games?id=7"))
+                MvcResult response = mockMvc.perform(
+                                delete("/api/games?id=15")
+                                                .with(csrf()))
                                 .andExpect(status().isNotFound()).andReturn();
 
                 // assert
-
-                verify(gameRepository, times(1)).findById(eq(7L));
+                verify(gameRepository, times(1)).findById(15L);
                 Map<String, Object> json = responseToJson(response);
-                assertEquals("EntityNotFoundException", json.get("type"));
-                assertEquals("Game with id 7 not found", json.get("message"));
+                assertEquals("Game with id 15 not found", json.get("message"));
         }
 }

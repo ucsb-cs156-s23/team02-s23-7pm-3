@@ -32,14 +32,15 @@ public class GamesController extends ApiController {
     @Autowired
     GameRepository gameRepository;
 
-    @ApiOperation(value = "Get a single game")
-    @PreAuthorize("hasRole('ROLE_USER')")
-    @GetMapping("")
-    public Game getById(
+    @ApiOperation(value = "Delete a Game")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @DeleteMapping("")
+    public Object deleteGame(
             @ApiParam("id") @RequestParam Long id) {
         Game game = gameRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException(Game.class, id));
 
-        return game;
+        gameRepository.delete(game);
+        return genericMessage("Game with id %s deleted".formatted(id));
     }
 }
