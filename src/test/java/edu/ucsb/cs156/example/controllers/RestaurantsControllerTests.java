@@ -3,10 +3,9 @@ package edu.ucsb.cs156.example.controllers;
 import edu.ucsb.cs156.example.repositories.UserRepository;
 import edu.ucsb.cs156.example.testconfig.TestConfig;
 import edu.ucsb.cs156.example.ControllerTestCase;
-import edu.ucsb.cs156.example.entities.Restaurants;
+import edu.ucsb.cs156.example.entities.Restaurant;
 import edu.ucsb.cs156.example.entities.UCSBDiningCommons;
 import edu.ucsb.cs156.example.repositories.RestaurantsRepository;
-import edu.ucsb.cs156.example.repositories.restaurantsRepository;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -87,7 +86,7 @@ public class RestaurantsControllerTests extends ControllerTestCase {
 
                 // arrange
 
-                Restaurants restaurant = Restaurants.builder()
+                Restaurant restaurant = Restaurant.builder()
                                 .id(1l)
                                 .name("KazuNori: The Original Hand Roll Bar")
                                 .address("1110 Gayley Ave, Los Angeles, CA 90024")
@@ -134,21 +133,21 @@ public class RestaurantsControllerTests extends ControllerTestCase {
 
                 // arrange
 
-                Restaurants kazunori = Restaurants.builder()
+                Restaurant kazunori = Restaurant.builder()
                                 .id(1l)
                                 .name("KazuNori: The Original Hand Roll Bar")
                                 .address("1110 Gayley Ave, Los Angeles, CA 90024")
                                 .specialty("Sushi - Hand Rolls")
                                 .build();
 
-                Restaurants sun = Restaurants.builder()
+                Restaurant sun = Restaurant.builder()
                                 .id(2l)
                                 .name("Sun Sushi")
                                 .address("3631 State St, Santa Barbara, CA 93105")
                                 .specialty("Sushi")
                                 .build();
 
-                ArrayList<Restaurants> expectedRestaurants = new ArrayList<>();
+                ArrayList<Restaurant> expectedRestaurants = new ArrayList<>();
                 expectedRestaurants.addAll(Arrays.asList(kazunori, sun));
 
                 when(restaurantsRepository.findAll()).thenReturn(expectedRestaurants);
@@ -170,7 +169,7 @@ public class RestaurantsControllerTests extends ControllerTestCase {
         public void an_admin_user_can_post_a_new_restaurant() throws Exception {
                 // arrange
 
-                Restaurants sun = Restaurants.builder()
+                Restaurant sun = Restaurant.builder()
                                 .id(2l)
                                 .name("Sun Sushi")
                                 .address("3631 State St, Santa Barbara, CA 93105")
@@ -181,7 +180,7 @@ public class RestaurantsControllerTests extends ControllerTestCase {
 
                 // act
                 MvcResult response = mockMvc.perform(
-                                post("/api/restaurants/post?name=Ortega&id=2&name=Sun_Sushi&address=3631 State St, Santa Barbara, CA 93105&specialty=Sushi")
+                                post("/api/restaurants/post?id=2&name=Sun_Sushi&address=3631%20State%20St,%20Santa%20Barbara,%20CA%2093105&specialty=Sushi")
                                                 .with(csrf()))
                                 .andExpect(status().isOk()).andReturn();
 
@@ -197,7 +196,7 @@ public class RestaurantsControllerTests extends ControllerTestCase {
         public void admin_can_delete_a_restaurant() throws Exception {
                 // arrange
 
-                Restaurants kazunori = Restaurants.builder()
+                Restaurant kazunori = Restaurant.builder()
                                 .id(1l)
                                 .name("KazuNori: The Original Hand Roll Bar")
                                 .address("1110 Gayley Ave, Los Angeles, CA 90024")
@@ -245,14 +244,14 @@ public class RestaurantsControllerTests extends ControllerTestCase {
         public void admin_can_edit_an_existing_restaurant() throws Exception {
                 // arrange
 
-                Restaurants kazunoriOrig = Restaurants.builder()
+                Restaurant kazunoriOrig = Restaurant.builder()
                                 .id(1l)
                                 .name("KazuNori: The Original Hand Roll Bar")
                                 .address("1110 Gayley Ave, Goleta, CA 90024")
                                 .specialty("Burgers")
                                 .build();
 
-                Restaurants kazunoriEdited = Restaurants.builder()
+                Restaurant kazunoriEdited = Restaurant.builder()
                                 .id(2l)
                                 .name("KazuNori")
                                 .address("1110 Gayley Ave, Los Angeles, CA 90024")
@@ -284,23 +283,20 @@ public class RestaurantsControllerTests extends ControllerTestCase {
         public void admin_cannot_edit_commons_that_does_not_exist() throws Exception {
                 // arrange
 
-                UCSBDiningCommons editedCommons = UCSBDiningCommons.builder()
-                                .name("Munger Hall")
-                                .code("munger-hall")
-                                .hasSackMeal(false)
-                                .hasTakeOutMeal(false)
-                                .hasDiningCam(true)
-                                .latitude(34.420799)
-                                .longitude(-119.852617)
+                Restaurant kazunoriEdited = Restaurant.builder()
+                                .id(2l)
+                                .name("KazuNori")
+                                .address("1110 Gayley Ave, Los Angeles, CA 90024")
+                                .specialty("Sushi - Hand Rolls")
                                 .build();
 
-                String requestBody = mapper.writeValueAsString(editedCommons);
+                String requestBody = mapper.writeValueAsString(kazunoriEdited);
 
-                when(restaurantsRepository.findById(eq("munger-hall"))).thenReturn(Optional.empty());
+                when(restaurantsRepository.findById(eq(2l))).thenReturn(Optional.empty());
 
                 // act
                 MvcResult response = mockMvc.perform(
-                                put("/api/ucsbdiningcommons?code=munger-hall")
+                                put("/api/restaurants?id=2")
                                                 .contentType(MediaType.APPLICATION_JSON)
                                                 .characterEncoding("utf-8")
                                                 .content(requestBody)
@@ -308,9 +304,9 @@ public class RestaurantsControllerTests extends ControllerTestCase {
                                 .andExpect(status().isNotFound()).andReturn();
 
                 // assert
-                verify(restaurantsRepository, times(1)).findById("munger-hall");
+                verify(restaurantsRepository, times(1)).findById(123l);
                 Map<String, Object> json = responseToJson(response);
-                assertEquals("UCSBDiningCommons with id munger-hall not found", json.get("message"));
+                assertEquals("Restaurant with id 123 not found", json.get("message"));
 
         }
 }

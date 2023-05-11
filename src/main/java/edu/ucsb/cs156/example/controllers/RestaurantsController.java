@@ -1,6 +1,6 @@
 package edu.ucsb.cs156.example.controllers;
 
-import edu.ucsb.cs156.example.entities.Restaurants;
+import edu.ucsb.cs156.example.entities.Restaurant;
 import edu.ucsb.cs156.example.errors.EntityNotFoundException;
 import edu.ucsb.cs156.example.repositories.RestaurantsRepository;
 import io.swagger.annotations.Api;
@@ -34,18 +34,18 @@ public class RestaurantsController extends ApiController {
     @ApiOperation(value = "List all restaurants")
     @PreAuthorize("hasRole('ROLE_USER')")
     @GetMapping("/all")
-    public Iterable<Restaurants> allRestaurants() {
-        Iterable<Restaurants> restaurants = restaurantsRepository.findAll();
+    public Iterable<Restaurant> allRestaurants() {
+        Iterable<Restaurant> restaurants = restaurantsRepository.findAll();
         return restaurants;
     }
 
     @ApiOperation(value = "Get a single restaurant")
     @PreAuthorize("hasRole('ROLE_USER')")
     @GetMapping("")
-    public Restaurants getById(
+    public Restaurant getById(
             @ApiParam("id") @RequestParam Long id) {
-        Restaurants restaurants = restaurantsRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException(Restaurants.class, id));
+        Restaurant restaurants = restaurantsRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException(Restaurant.class, id));
 
         return restaurants;
     }
@@ -53,7 +53,7 @@ public class RestaurantsController extends ApiController {
     @ApiOperation(value = "Create a new restaurant")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @PostMapping("/post")
-    public Restaurants postRestaurants(
+    public Restaurant postRestaurants(
         @ApiParam("id") @RequestParam Long id,
         @ApiParam("name") @RequestParam String name,
         @ApiParam("address") @RequestParam String address,
@@ -61,13 +61,13 @@ public class RestaurantsController extends ApiController {
         )
         {
 
-        Restaurants restaurants = new Restaurants();
+        Restaurant restaurants = new Restaurant();
         restaurants.setId(id);
         restaurants.setName(name);
         restaurants.setAddress(address);
         restaurants.setSpecialty(specialty);
 
-        Restaurants savedRestaurants = restaurantsRepository.save(restaurants);
+        Restaurant savedRestaurants = restaurantsRepository.save(restaurants);
 
         return savedRestaurants;
     }
@@ -77,8 +77,8 @@ public class RestaurantsController extends ApiController {
     @DeleteMapping("")
     public Object deleteRestaurants(
             @ApiParam("code") @RequestParam Long id) {
-        Restaurants restaurants = restaurantsRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException(Restaurants.class, id));
+        Restaurant restaurants = restaurantsRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException(Restaurant.class, id));
 
         restaurantsRepository.delete(restaurants);
         return genericMessage("Restaurant with id %s deleted".formatted(id));
@@ -87,12 +87,12 @@ public class RestaurantsController extends ApiController {
     @ApiOperation(value = "Update a single restaurant")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @PutMapping("")
-    public Restaurants updateRestaurants(
+    public Restaurant updateRestaurants(
             @ApiParam("code") @RequestParam Long id,
-            @RequestBody @Valid Restaurants incoming) {
+            @RequestBody @Valid Restaurant incoming) {
 
-        Restaurants restaurants = restaurantsRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException(Restaurants.class, id));
+        Restaurant restaurants = restaurantsRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException(Restaurant.class, id));
 
 
         restaurants.setId(incoming.getId());
