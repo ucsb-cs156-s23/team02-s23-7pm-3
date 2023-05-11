@@ -40,17 +40,6 @@ public class GamesController extends ApiController {
         return games;
     }
 
-    @ApiOperation(value = "Get a single game")
-    @PreAuthorize("hasRole('ROLE_USER')")
-    @GetMapping("")
-    public Game getById(
-            @ApiParam("id") @RequestParam Long id) {
-        Game game = gameRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException(Game.class, id));
-
-        return game;
-    }
-
     @ApiOperation(value = "Create a new game")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @PostMapping("/post")
@@ -68,36 +57,5 @@ public class GamesController extends ApiController {
         Game savedGame = gameRepository.save(game);
 
         return savedGame;
-    }
-
-    @ApiOperation(value = "Delete a Game")
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
-    @DeleteMapping("")
-    public Object deleteGame(
-            @ApiParam("id") @RequestParam Long id) {
-        Game game = gameRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException(Game.class, id));
-
-        gameRepository.delete(game);
-        return genericMessage("Game with id %s deleted".formatted(id));
-    }
-
-    @ApiOperation(value = "Update a single game")
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
-    @PutMapping("")
-    public Game updateGame(
-            @ApiParam("id") @RequestParam Long id,
-            @RequestBody @Valid Game incoming) {
-
-        Game game = gameRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException(Game.class, id));
-
-        game.setName(incoming.getName());
-        game.setCreator(incoming.getCreator());
-        game.setGenre(incoming.getGenre());
-
-        gameRepository.save(game);
-
-        return game;
     }
 }
