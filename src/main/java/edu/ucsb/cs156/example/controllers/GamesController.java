@@ -32,56 +32,6 @@ public class GamesController extends ApiController {
     @Autowired
     GameRepository gameRepository;
 
-    @ApiOperation(value = "List all games")
-    @PreAuthorize("hasRole('ROLE_USER')")
-    @GetMapping("/all")
-    public Iterable<Game> allGames() {
-        Iterable<Game> games = gameRepository.findAll();
-        return games;
-    }
-
-    @ApiOperation(value = "Get a single game")
-    @PreAuthorize("hasRole('ROLE_USER')")
-    @GetMapping("")
-    public Game getById(
-            @ApiParam("id") @RequestParam Long id) {
-        Game game = gameRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException(Game.class, id));
-
-        return game;
-    }
-
-    @ApiOperation(value = "Create a new game")
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
-    @PostMapping("/post")
-    public Game postGame(
-            @ApiParam("name") @RequestParam String name,
-            @ApiParam("creator") @RequestParam String creator,
-            @ApiParam("genre") @RequestParam String genre)
-            throws JsonProcessingException {
-
-        Game game = new Game();
-        game.setName(name);
-        game.setCreator(creator);
-        game.setGenre(genre);
-
-        Game savedGame = gameRepository.save(game);
-
-        return savedGame;
-    }
-
-    @ApiOperation(value = "Delete a Game")
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
-    @DeleteMapping("")
-    public Object deleteGame(
-            @ApiParam("id") @RequestParam Long id) {
-        Game game = gameRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException(Game.class, id));
-
-        gameRepository.delete(game);
-        return genericMessage("Game with id %s deleted".formatted(id));
-    }
-
     @ApiOperation(value = "Update a single game")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @PutMapping("")
