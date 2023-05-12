@@ -41,7 +41,7 @@ public class BooksController extends ApiController {
         Iterable<Book> books = BookRepository.findAll();
         return books;
     }
-    /*
+    
     @ApiOperation(value = "Get a single date")
     @PreAuthorize("hasRole('ROLE_USER')")
     @GetMapping("")
@@ -52,7 +52,7 @@ public class BooksController extends ApiController {
 
         return book;
     }
-    */
+    
     @ApiOperation(value = "Create a new book")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @PostMapping("/post")
@@ -75,7 +75,7 @@ public class BooksController extends ApiController {
 
         return savedBook;
     }
-    /*
+    
     @ApiOperation(value = "Delete a Book")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @DeleteMapping("")
@@ -107,5 +107,5 @@ public class BooksController extends ApiController {
         return book;
     
     }
-    */
+    
 }

@@ -56,13 +56,13 @@ public class BooksControllerTests extends ControllerTestCase {
                 mockMvc.perform(get("/api/books/all"))
                                 .andExpect(status().is(200)); // logged
         }
-        /*
+        
         @Test
         public void logged_out_users_cannot_get_by_id() throws Exception {
                 mockMvc.perform(get("/api/books?id=7"))
                                 .andExpect(status().is(403)); // logged out users can't get by id
         }
-        */
+        
         // Authorization tests for /api/books/post
         // (Perhaps should also have these for put and delete)
 
@@ -80,7 +80,7 @@ public class BooksControllerTests extends ControllerTestCase {
         }
 
         // // Tests with mocks for database actions
-        /*
+        
         @WithMockUser(roles = { "USER" })
         @Test
         public void test_that_logged_in_user_can_get_by_id_when_the_id_exists() throws Exception {
@@ -125,7 +125,7 @@ public class BooksControllerTests extends ControllerTestCase {
                 assertEquals("EntityNotFoundException", json.get("type"));
                 assertEquals("Book with id 7 not found", json.get("message"));
         }
-        */
+        
         @WithMockUser(roles = { "USER" })
         @Test
         public void logged_in_user_can_get_all_books() throws Exception {
@@ -189,7 +189,7 @@ public class BooksControllerTests extends ControllerTestCase {
                 String responseString = response.getResponse().getContentAsString();
                 assertEquals(expectedJson, responseString);
         }
-        /*
+        
         @WithMockUser(roles = { "ADMIN", "USER" })
         @Test
         public void admin_can_delete_a_date() throws Exception {
@@ -304,5 +304,5 @@ public class BooksControllerTests extends ControllerTestCase {
                 assertEquals("Book with id 67 not found", json.get("message"));
 
         }
-        */
+        
 }
