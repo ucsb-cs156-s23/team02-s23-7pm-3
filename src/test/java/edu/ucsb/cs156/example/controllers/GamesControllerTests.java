@@ -82,7 +82,7 @@ public class GamesControllerTests extends ControllerTestCase {
                 when(gameRepository.findById(eq(7L))).thenReturn(Optional.of(game));
 
                 // act
-                MvcResult response = mockMvc.perform(get("/api/games?id=7"))
+                MvcResult response = mockMvc.perform(get("/api/games?id=7"));
                   
                 // assert
                 verify(gameRepository, times(1)).findById(eq(7L));
