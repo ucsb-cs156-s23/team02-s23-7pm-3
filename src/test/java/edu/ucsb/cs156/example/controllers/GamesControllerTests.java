@@ -48,7 +48,6 @@ public class GamesControllerTests extends ControllerTestCase {
                                 .andExpect(status().is(403)); // logged out users can't get by id
         }
   
-        @WithMockUser(roles = { "USER" })
         @Test
         public void logged_out_users_cannot_get_all() throws Exception {
                 mockMvc.perform(get("/api/games/all"))
@@ -82,9 +81,9 @@ public class GamesControllerTests extends ControllerTestCase {
                 when(gameRepository.findById(eq(7L))).thenReturn(Optional.of(game));
 
                 // act
-                MvcResult response = mockMvc.perform(get("/api/games?id=7"));
-                                .andExpect(status().isOk()).andReturn();
-                  
+                MvcResult response = mockMvc.perform(get("/api/games?id=7"))
+                        .andExpect(status().isOk()).andReturn();
+
                 // assert
                 verify(gameRepository, times(1)).findById(eq(7L));
                 String expectedJson = mapper.writeValueAsString(game);
