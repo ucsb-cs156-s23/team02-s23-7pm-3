@@ -83,6 +83,7 @@ public class GamesControllerTests extends ControllerTestCase {
 
                 // act
                 MvcResult response = mockMvc.perform(get("/api/games?id=7"));
+                                .andExpect(status().isOk()).andReturn();
                   
                 // assert
                 verify(gameRepository, times(1)).findById(eq(7L));
