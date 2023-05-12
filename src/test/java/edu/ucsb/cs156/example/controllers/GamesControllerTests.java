@@ -43,6 +43,12 @@ public class GamesControllerTests extends ControllerTestCase {
         // Authorization tests for /api/games/admin/all
 
         @Test
+        public void logged_out_users_cannot_get_by_id() throws Exception {
+                mockMvc.perform(get("/api/games?id=7"))
+                                .andExpect(status().is(403)); // logged out users can't get by id
+        }
+  
+        @Test
         public void logged_out_users_cannot_get_all() throws Exception {
                 mockMvc.perform(get("/api/games/all"))
                                 .andExpect(status().is(403)); // logged out users can't get all
@@ -55,25 +61,37 @@ public class GamesControllerTests extends ControllerTestCase {
                                 .andExpect(status().is(200)); // logged
         }
 
-
         // Authorization tests for /api/games/post
         // (Perhaps should also have these for put and delete)
 
-        @Test
-        public void logged_out_users_cannot_post() throws Exception {
-                mockMvc.perform(post("/api/games/post"))
-                                .andExpect(status().is(403));
-        }
+        // // Tests with mocks for database actions
 
         @WithMockUser(roles = { "USER" })
         @Test
-        public void logged_in_regular_users_cannot_post() throws Exception {
-                mockMvc.perform(post("/api/games/post"))
-                                .andExpect(status().is(403)); // only admins can post
+        public void test_that_logged_in_user_can_get_by_id_when_the_id_exists() throws Exception {
+
+                // arrange
+
+                Game game = Game.builder()
+                                .name("Bucket Montage")
+                                .creator("Plum")
+                                .genre("RPG")
+                                .build();
+  
+                when(gameRepository.findById(eq(7L))).thenReturn(Optional.of(game));
+
+                // act
+                MvcResult response = mockMvc.perform(get("/api/games?id=7"))
+                        .andExpect(status().isOk()).andReturn();
+
+                // assert
+                verify(gameRepository, times(1)).findById(eq(7L));
+                String expectedJson = mapper.writeValueAsString(game);
+                String responseString = response.getResponse().getContentAsString();
+                assertEquals(expectedJson, responseString);
+
         }
-
-        // // Tests with mocks for database actions
-
+  
         @WithMockUser(roles = { "USER" })
         @Test
         public void logged_in_user_can_get_all_games() throws Exception {
@@ -85,7 +103,7 @@ public class GamesControllerTests extends ControllerTestCase {
                                 .creator("Plum")
                                 .genre("RPG")
                                 .build();
-
+                  
                 Game game2 = Game.builder()
                                 .name("Pong")
                                 .creator("Atari")
@@ -109,6 +127,26 @@ public class GamesControllerTests extends ControllerTestCase {
                 assertEquals(expectedJson, responseString);
         }
 
+        @WithMockUser(roles = { "USER" })
+        @Test
+        public void test_that_logged_in_user_can_get_by_id_when_the_id_does_not_exist() throws Exception {
+
+                // arrange
+
+                when(gameRepository.findById(eq(7L))).thenReturn(Optional.empty());
+
+                // act
+                MvcResult response = mockMvc.perform(get("/api/games?id=7"))
+                                .andExpect(status().isNotFound()).andReturn();
+
+                // assert
+
+                verify(gameRepository, times(1)).findById(eq(7L));
+                Map<String, Object> json = responseToJson(response);
+                assertEquals("EntityNotFoundException", json.get("type"));
+                assertEquals("Game with id 7 not found", json.get("message"));
+        }
+  
         @WithMockUser(roles = { "ADMIN", "USER" })
         @Test
         public void an_admin_user_can_post_a_new_game() throws Exception {

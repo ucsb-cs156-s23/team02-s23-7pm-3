@@ -32,6 +32,18 @@ public class GamesController extends ApiController {
     @Autowired
     GameRepository gameRepository;
 
+
+    @ApiOperation(value = "Get a single game")
+    @PreAuthorize("hasRole('ROLE_USER')")
+    @GetMapping("")
+    public Game getById(
+            @ApiParam("id") @RequestParam Long id) {
+        Game game = gameRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException(Game.class, id));
+
+        return game;
+    }
+  
     @ApiOperation(value = "List all games")
     @PreAuthorize("hasRole('ROLE_USER')")
     @GetMapping("/all")
