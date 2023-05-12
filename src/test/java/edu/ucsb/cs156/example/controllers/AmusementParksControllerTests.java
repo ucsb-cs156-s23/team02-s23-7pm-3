@@ -84,14 +84,14 @@ public class AmusementParksControllerTests extends ControllerTestCase{
 
                 // arrange
 
-                AmusementPark commons = AmusementPark.builder()
+                AmusementPark amusementParks = AmusementPark.builder()
                                 .id(1)
                                 .name("Disney")
                                 .address("1313 Disneyland Dr, Anaheim, CA 92802")
                                 .description("Disney land park in LA is a theme park built for fans")
                                 .build();
 
-                when(amusementParksRepository.findById(eq(1L))).thenReturn(Optional.of(commons));
+                when(amusementParksRepository.findById(eq(1L))).thenReturn(Optional.of(amusementParks));
 
                 // act
                 MvcResult response = mockMvc.perform(get("/api/amusementparks?id=1"))
@@ -100,7 +100,7 @@ public class AmusementParksControllerTests extends ControllerTestCase{
                 // assert
 
                 verify(amusementParksRepository, times(1)).findById(eq(1L));
-                String expectedJson = mapper.writeValueAsString(commons);
+                String expectedJson = mapper.writeValueAsString(amusementParks);
                 String responseString = response.getResponse().getContentAsString();
                 assertEquals(expectedJson, responseString);
         }
@@ -127,7 +127,7 @@ public class AmusementParksControllerTests extends ControllerTestCase{
 
         @WithMockUser(roles = { "USER" })
         @Test
-        public void logged_in_user_can_get_all_ucsbdiningcommons() throws Exception {
+        public void logged_in_user_can_get_all_amusementParks() throws Exception {
 
                 // arrange
 
@@ -164,7 +164,7 @@ public class AmusementParksControllerTests extends ControllerTestCase{
 
         @WithMockUser(roles = { "ADMIN", "USER" })
         @Test
-        public void an_admin_user_can_post_a_new_commons() throws Exception {
+        public void an_admin_user_can_post_a_new_amusementParks() throws Exception {
                 // arrange
 
                 AmusementPark LegoLand = AmusementPark.builder()
@@ -219,7 +219,7 @@ public class AmusementParksControllerTests extends ControllerTestCase{
 
         @WithMockUser(roles = { "ADMIN", "USER" })
         @Test
-        public void admin_tries_to_delete_non_existant_commons_and_gets_right_error_message()
+        public void admin_tries_to_delete_non_existant_amusementParks_and_gets_right_error_message()
                         throws Exception {
                 // arrange
 
@@ -239,7 +239,7 @@ public class AmusementParksControllerTests extends ControllerTestCase{
 
         @WithMockUser(roles = { "ADMIN", "USER" })
         @Test
-        public void admin_can_edit_an_existing_commons() throws Exception {
+        public void admin_can_edit_an_existing_amusementParks() throws Exception {
                 // arrange
 
                 AmusementPark UniversalStudioOrig = AmusementPark.builder()
@@ -278,7 +278,7 @@ public class AmusementParksControllerTests extends ControllerTestCase{
 
         @WithMockUser(roles = { "ADMIN", "USER" })
         @Test
-        public void admin_cannot_edit_commons_that_does_not_exist() throws Exception {
+        public void admin_cannot_edit_amusementParks_that_does_not_exist() throws Exception {
                 // arrange
 
                 AmusementPark editedCommons = AmusementPark.builder()
