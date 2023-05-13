@@ -31,74 +31,71 @@ public class AmusementParksController extends ApiController{
     @ApiOperation(value = "List all amusement parks")
     @PreAuthorize("hasRole('ROLE_USER')")
     @GetMapping("/all")
-    public Iterable<AmusementPark> allCommonss() {
-        Iterable<AmusementPark> commons = amusementParksRepository.findAll();
-        return commons;
+    public Iterable<AmusementPark> allAmusementParkss() {
+        Iterable<AmusementPark> amusementParks = amusementParksRepository.findAll();
+        return amusementParks;
     }
 
-    @ApiOperation(value = "Get a single commons")
+    @ApiOperation(value = "Get a single amusementParks")
     @PreAuthorize("hasRole('ROLE_USER')")
     @GetMapping("")
     public AmusementPark getById(
-            @ApiParam("code") @RequestParam Long id) {
-        AmusementPark commons = amusementParksRepository.findById(id)
+            @ApiParam("id") @RequestParam Long id) {
+        AmusementPark amusementParks = amusementParksRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException(AmusementPark.class, id));
 
-        return commons;
+        return amusementParks;
     }
 
-    @ApiOperation(value = "Create a new commons")
+    @ApiOperation(value = "Create a new amusementParks")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @PostMapping("/post")
-    public AmusementPark postCommons(
-        @ApiParam("id") @RequestParam Long id,
+    public AmusementPark postAmusementParks(
         @ApiParam("name") @RequestParam String name,
         @ApiParam("address") @RequestParam String address,
         @ApiParam("description") @RequestParam String description
         )
         {
 
-        AmusementPark commons = new AmusementPark();
-        commons.setId(id);
-        commons.setName(name);
-        commons.setAddress(address);
-        commons.setDescription(description);
+        AmusementPark amusementParks = new AmusementPark();
+        amusementParks.setName(name);
+        amusementParks.setAddress(address);
+        amusementParks.setDescription(description);
 
-        AmusementPark savedCommons = amusementParksRepository.save(commons);
+        AmusementPark savedAmusementParks = amusementParksRepository.save(amusementParks);
 
-        return savedCommons;
+        return savedAmusementParks;
     }
 
     @ApiOperation(value = "Delete a AmusementPark")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @DeleteMapping("")
-    public Object deleteCommons(
-            @ApiParam("code") @RequestParam Long id) {
-        AmusementPark commons = amusementParksRepository.findById(id)
+    public Object deleteAmusementParks(
+            @ApiParam("id") @RequestParam Long id) {
+        AmusementPark amusementParks = amusementParksRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException(AmusementPark.class, id));
 
-        amusementParksRepository.delete(commons);
+        amusementParksRepository.delete(amusementParks);
         return genericMessage("AmusementPark with id %s deleted".formatted(id));
     }
 
-    @ApiOperation(value = "Update a single commons")
+    @ApiOperation(value = "Update a single amusementParks")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @PutMapping("")
-    public AmusementPark updateCommons(
-            @ApiParam("code") @RequestParam Long id,
+    public AmusementPark updateAmusementParks(
+            @ApiParam("id") @RequestParam Long id,
             @RequestBody @Valid AmusementPark incoming) {
 
-        AmusementPark commons = amusementParksRepository.findById(id)
+        AmusementPark amusementParks = amusementParksRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException(AmusementPark.class, id));
 
-        commons.setId(incoming.getId());
-        commons.setName(incoming.getName());
-        commons.setAddress(incoming.getAddress());
-        commons.setDescription(incoming.getDescription());
+        amusementParks.setName(incoming.getName());
+        amusementParks.setAddress(incoming.getAddress());
+        amusementParks.setDescription(incoming.getDescription());
 
-        amusementParksRepository.save(commons);
+        amusementParksRepository.save(amusementParks);
 
-        return commons;
+        return amusementParks;
     }
 
 }
