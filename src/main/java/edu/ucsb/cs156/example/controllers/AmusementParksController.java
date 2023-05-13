@@ -40,7 +40,7 @@ public class AmusementParksController extends ApiController{
     @PreAuthorize("hasRole('ROLE_USER')")
     @GetMapping("")
     public AmusementPark getById(
-            @ApiParam("code") @RequestParam Long id) {
+            @ApiParam("id") @RequestParam Long id) {
         AmusementPark amusementParks = amusementParksRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException(AmusementPark.class, id));
 
@@ -73,7 +73,7 @@ public class AmusementParksController extends ApiController{
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @DeleteMapping("")
     public Object deleteCommons(
-            @ApiParam("code") @RequestParam Long id) {
+            @ApiParam("id") @RequestParam Long id) {
         AmusementPark amusementParks = amusementParksRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException(AmusementPark.class, id));
 
