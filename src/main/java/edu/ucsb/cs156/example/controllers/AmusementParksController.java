@@ -31,7 +31,7 @@ public class AmusementParksController extends ApiController{
     @ApiOperation(value = "List all amusement parks")
     @PreAuthorize("hasRole('ROLE_USER')")
     @GetMapping("/all")
-    public Iterable<AmusementPark> allCommonss() {
+    public Iterable<AmusementPark> allAmusementParkss() {
         Iterable<AmusementPark> amusementParks = amusementParksRepository.findAll();
         return amusementParks;
     }
@@ -50,7 +50,7 @@ public class AmusementParksController extends ApiController{
     @ApiOperation(value = "Create a new amusementParks")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @PostMapping("/post")
-    public AmusementPark postCommons(
+    public AmusementPark postAmusementParks(
         @ApiParam("id") @RequestParam Long id,
         @ApiParam("name") @RequestParam String name,
         @ApiParam("address") @RequestParam String address,
@@ -64,15 +64,15 @@ public class AmusementParksController extends ApiController{
         amusementParks.setAddress(address);
         amusementParks.setDescription(description);
 
-        AmusementPark savedCommons = amusementParksRepository.save(amusementParks);
+        AmusementPark savedAmusementParks = amusementParksRepository.save(amusementParks);
 
-        return savedCommons;
+        return savedAmusementParks;
     }
 
     @ApiOperation(value = "Delete a AmusementPark")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @DeleteMapping("")
-    public Object deleteCommons(
+    public Object deleteAmusementParks(
             @ApiParam("id") @RequestParam Long id) {
         AmusementPark amusementParks = amusementParksRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException(AmusementPark.class, id));
@@ -84,7 +84,7 @@ public class AmusementParksController extends ApiController{
     @ApiOperation(value = "Update a single amusementParks")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @PutMapping("")
-    public AmusementPark updateCommons(
+    public AmusementPark updateAmusementParks(
             @ApiParam("id") @RequestParam Long id,
             @RequestBody @Valid AmusementPark incoming) {
 

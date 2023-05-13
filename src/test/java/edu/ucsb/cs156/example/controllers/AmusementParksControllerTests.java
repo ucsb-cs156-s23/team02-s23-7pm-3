@@ -145,10 +145,10 @@ public class AmusementParksControllerTests extends ControllerTestCase{
                                 .description("A lego theme park built for lego fans")
                                 .build();
 
-                ArrayList<AmusementPark> expectedCommons = new ArrayList<>();
-                expectedCommons.addAll(Arrays.asList(UniversalStudio, LegoLand));
+                ArrayList<AmusementPark> expectedAmusementParks = new ArrayList<>();
+                expectedAmusementParks.addAll(Arrays.asList(UniversalStudio, LegoLand));
 
-                when(amusementParksRepository.findAll()).thenReturn(expectedCommons);
+                when(amusementParksRepository.findAll()).thenReturn(expectedAmusementParks);
 
                 // act
                 MvcResult response = mockMvc.perform(get("/api/amusementparks/all"))
@@ -157,7 +157,7 @@ public class AmusementParksControllerTests extends ControllerTestCase{
                 // assert
 
                 verify(amusementParksRepository, times(1)).findAll();
-                String expectedJson = mapper.writeValueAsString(expectedCommons);
+                String expectedJson = mapper.writeValueAsString(expectedAmusementParks);
                 String responseString = response.getResponse().getContentAsString();
                 assertEquals(expectedJson, responseString);
         }
@@ -281,14 +281,14 @@ public class AmusementParksControllerTests extends ControllerTestCase{
         public void admin_cannot_edit_amusementParks_that_does_not_exist() throws Exception {
                 // arrange
 
-                AmusementPark editedCommons = AmusementPark.builder()
+                AmusementPark editedAmusementParks = AmusementPark.builder()
                                 .id(2)
                                 .name("UniversalStudio")
                                 .address("100 Universal City Plaza, Universal City, CA 91608")
                                 .description("A Universal Studio theme park built for Universal Studio film fans")
                                 .build();
 
-                String requestBody = mapper.writeValueAsString(editedCommons);
+                String requestBody = mapper.writeValueAsString(editedAmusementParks);
 
                 when(amusementParksRepository.findById(eq(2L))).thenReturn(Optional.empty());
 
