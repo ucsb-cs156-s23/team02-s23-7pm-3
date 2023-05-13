@@ -51,7 +51,6 @@ public class AmusementParksController extends ApiController{
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @PostMapping("/post")
     public AmusementPark postAmusementParks(
-        @ApiParam("id") @RequestParam Long id,
         @ApiParam("name") @RequestParam String name,
         @ApiParam("address") @RequestParam String address,
         @ApiParam("description") @RequestParam String description
@@ -59,7 +58,6 @@ public class AmusementParksController extends ApiController{
         {
 
         AmusementPark amusementParks = new AmusementPark();
-        amusementParks.setId(id);
         amusementParks.setName(name);
         amusementParks.setAddress(address);
         amusementParks.setDescription(description);
@@ -91,7 +89,6 @@ public class AmusementParksController extends ApiController{
         AmusementPark amusementParks = amusementParksRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException(AmusementPark.class, id));
 
-        amusementParks.setId(incoming.getId());
         amusementParks.setName(incoming.getName());
         amusementParks.setAddress(incoming.getAddress());
         amusementParks.setDescription(incoming.getDescription());

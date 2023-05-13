@@ -85,7 +85,6 @@ public class AmusementParksControllerTests extends ControllerTestCase{
                 // arrange
 
                 AmusementPark amusementParks = AmusementPark.builder()
-                                .id(1)
                                 .name("Disney")
                                 .address("1313 Disneyland Dr, Anaheim, CA 92802")
                                 .description("Disney land park in LA is a theme park built for fans")
@@ -132,14 +131,12 @@ public class AmusementParksControllerTests extends ControllerTestCase{
                 // arrange
 
                 AmusementPark UniversalStudio = AmusementPark.builder()
-                                .id(2)
                                 .name("UniversalStudio")
                                 .address("100 Universal City Plaza, Universal City, CA 91608")
                                 .description("A Universal Studio theme park built for Universal Studio film fans")
                                 .build();
 
                 AmusementPark LegoLand = AmusementPark.builder()
-                                .id(3)
                                 .name("LegoLand")
                                 .address("One Legoland Dr, Carlsbad, CA 92008")
                                 .description("A lego theme park built for lego fans")
@@ -168,7 +165,6 @@ public class AmusementParksControllerTests extends ControllerTestCase{
                 // arrange
 
                 AmusementPark LegoLand = AmusementPark.builder()
-                                .id(3)
                                 .name("LegoLand")
                                 .address("One Legoland Dr, Carlsbad, CA 92008")
                                 .description("A lego theme park built for lego fans")
@@ -178,7 +174,7 @@ public class AmusementParksControllerTests extends ControllerTestCase{
 
                 // act
                 MvcResult response = mockMvc.perform(
-                                post("/api/amusementparks/post?id=3&name=LegoLand&address=One Legoland Dr, Carlsbad, CA 92008&description=A lego theme park built for lego fans")
+                                post("/api/amusementparks/post?name=LegoLand&address=One Legoland Dr, Carlsbad, CA 92008&description=A lego theme park built for lego fans")
                                                 .with(csrf()))
                                 .andExpect(status().isOk()).andReturn();
 
@@ -195,7 +191,6 @@ public class AmusementParksControllerTests extends ControllerTestCase{
                 // arrange
 
                 AmusementPark UniversalStudio = AmusementPark.builder()
-                                .id(2)
                                 .name("UniversalStudio")
                                 .address("100 Universal City Plaza, Universal City, CA 91608")
                                 .description("A Universal Studio theme park built for Universal Studio film fans")
@@ -223,18 +218,18 @@ public class AmusementParksControllerTests extends ControllerTestCase{
                         throws Exception {
                 // arrange
 
-                when(amusementParksRepository.findById(eq(1L))).thenReturn(Optional.empty());
+                when(amusementParksRepository.findById(eq(2L))).thenReturn(Optional.empty());
 
                 // act
                 MvcResult response = mockMvc.perform(
-                                delete("/api/amusementparks?id=1")
+                                delete("/api/amusementparks?id=2")
                                                 .with(csrf()))
                                 .andExpect(status().isNotFound()).andReturn();
 
                 // assert
-                verify(amusementParksRepository, times(1)).findById(1L);
+                verify(amusementParksRepository, times(1)).findById(2L);
                 Map<String, Object> json = responseToJson(response);
-                assertEquals("AmusementPark with id 1 not found", json.get("message"));
+                assertEquals("AmusementPark with id 2 not found", json.get("message"));
         }
 
         @WithMockUser(roles = { "ADMIN", "USER" })
@@ -243,14 +238,12 @@ public class AmusementParksControllerTests extends ControllerTestCase{
                 // arrange
 
                 AmusementPark UniversalStudioOrig = AmusementPark.builder()
-                                .id(2)
                                 .name("Universal")
                                 .address("100 Universal City Plaza, CA 91608")
                                 .description("A Universal Studio theme park built for Universal Studio film fans")
                                 .build();
 
                 AmusementPark UniversalStudioEdited = AmusementPark.builder()
-                                .id(2)
                                 .name("UniversalStudio")
                                 .address("100 Universal City Plaza, Universal City, CA 91608")
                                 .description("A Universal Studio theme park built for Universal Studio film fans")
@@ -258,11 +251,11 @@ public class AmusementParksControllerTests extends ControllerTestCase{
 
                 String requestBody = mapper.writeValueAsString(UniversalStudioEdited);
 
-                when(amusementParksRepository.findById(eq(2L))).thenReturn(Optional.of(UniversalStudioOrig));
+                when(amusementParksRepository.findById(eq(5L))).thenReturn(Optional.of(UniversalStudioOrig));
 
                 // act
                 MvcResult response = mockMvc.perform(
-                                put("/api/amusementparks?id=2")
+                                put("/api/amusementparks?id=5")
                                                 .contentType(MediaType.APPLICATION_JSON)
                                                 .characterEncoding("utf-8")
                                                 .content(requestBody)
@@ -270,7 +263,7 @@ public class AmusementParksControllerTests extends ControllerTestCase{
                                 .andExpect(status().isOk()).andReturn();
 
                 // assert
-                verify(amusementParksRepository, times(1)).findById(2L);
+                verify(amusementParksRepository, times(1)).findById(5L);
                 verify(amusementParksRepository, times(1)).save(UniversalStudioEdited); // should be saved with updated info
                 String responseString = response.getResponse().getContentAsString();
                 assertEquals(requestBody, responseString);
@@ -282,7 +275,6 @@ public class AmusementParksControllerTests extends ControllerTestCase{
                 // arrange
 
                 AmusementPark editedAmusementParks = AmusementPark.builder()
-                                .id(2)
                                 .name("UniversalStudio")
                                 .address("100 Universal City Plaza, Universal City, CA 91608")
                                 .description("A Universal Studio theme park built for Universal Studio film fans")
@@ -290,11 +282,11 @@ public class AmusementParksControllerTests extends ControllerTestCase{
 
                 String requestBody = mapper.writeValueAsString(editedAmusementParks);
 
-                when(amusementParksRepository.findById(eq(2L))).thenReturn(Optional.empty());
+                when(amusementParksRepository.findById(eq(7L))).thenReturn(Optional.empty());
 
                 // act
                 MvcResult response = mockMvc.perform(
-                                put("/api/amusementparks?id=2")
+                                put("/api/amusementparks?id=7")
                                                 .contentType(MediaType.APPLICATION_JSON)
                                                 .characterEncoding("utf-8")
                                                 .content(requestBody)
@@ -302,9 +294,9 @@ public class AmusementParksControllerTests extends ControllerTestCase{
                                 .andExpect(status().isNotFound()).andReturn();
 
                 // assert
-                verify(amusementParksRepository, times(1)).findById(2L);
+                verify(amusementParksRepository, times(1)).findById(7L);
                 Map<String, Object> json = responseToJson(response);
-                assertEquals("AmusementPark with id 2 not found", json.get("message"));
+                assertEquals("AmusementPark with id 7 not found", json.get("message"));
 
         }
 
