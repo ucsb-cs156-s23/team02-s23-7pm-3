@@ -4,7 +4,6 @@ import edu.ucsb.cs156.example.repositories.UserRepository;
 import edu.ucsb.cs156.example.testconfig.TestConfig;
 import edu.ucsb.cs156.example.ControllerTestCase;
 import edu.ucsb.cs156.example.entities.Restaurant;
-import edu.ucsb.cs156.example.entities.UCSBDiningCommons;
 import edu.ucsb.cs156.example.repositories.RestaurantsRepository;
 
 import java.util.ArrayList;
@@ -87,7 +86,6 @@ public class RestaurantsControllerTests extends ControllerTestCase {
                 // arrange
 
                 Restaurant restaurant = Restaurant.builder()
-                                .id(1l)
                                 .name("KazuNori: The Original Hand Roll Bar")
                                 .address("1110 Gayley Ave, Los Angeles, CA 90024")
                                 .specialty("Sushi - Hand Rolls")
@@ -134,14 +132,12 @@ public class RestaurantsControllerTests extends ControllerTestCase {
                 // arrange
 
                 Restaurant kazunori = Restaurant.builder()
-                                .id(1l)
                                 .name("KazuNori: The Original Hand Roll Bar")
                                 .address("1110 Gayley Ave, Los Angeles, CA 90024")
                                 .specialty("Sushi - Hand Rolls")
                                 .build();
 
                 Restaurant sun = Restaurant.builder()
-                                .id(2l)
                                 .name("Sun Sushi")
                                 .address("3631 State St, Santa Barbara, CA 93105")
                                 .specialty("Sushi")
@@ -170,7 +166,6 @@ public class RestaurantsControllerTests extends ControllerTestCase {
                 // arrange
 
                 Restaurant sun = Restaurant.builder()
-                                .id(2l)
                                 .name("Sun Sushi")
                                 .address("3631 State St, Santa Barbara, CA 93105")
                                 .specialty("Sushi")
@@ -180,7 +175,7 @@ public class RestaurantsControllerTests extends ControllerTestCase {
 
                 // act
                 MvcResult response = mockMvc.perform(
-                                post("/api/restaurants/post?id=2&name=Sun Sushi&address=3631 State St, Santa Barbara, CA 93105&specialty=Sushi")
+                                post("/api/restaurants/post?name=Sun Sushi&address=3631 State St, Santa Barbara, CA 93105&specialty=Sushi")
                                                 .with(csrf()))
                                 .andExpect(status().isOk()).andReturn();
 
@@ -197,7 +192,6 @@ public class RestaurantsControllerTests extends ControllerTestCase {
                 // arrange
 
                 Restaurant kazunori = Restaurant.builder()
-                                .id(1l)
                                 .name("KazuNori: The Original Hand Roll Bar")
                                 .address("1110 Gayley Ave, Los Angeles, CA 90024")
                                 .specialty("Sushi - Hand Rolls")
@@ -245,14 +239,12 @@ public class RestaurantsControllerTests extends ControllerTestCase {
                 // arrange
 
                 Restaurant kazunoriOrig = Restaurant.builder()
-                                .id(1l)
                                 .name("KazuNori: The Original Hand Roll Bar")
                                 .address("1110 Gayley Ave, Goleta, CA 90024")
                                 .specialty("Burgers")
                                 .build();
 
                 Restaurant kazunoriEdited = Restaurant.builder()
-                                .id(2l)
                                 .name("KazuNori")
                                 .address("1110 Gayley Ave, Los Angeles, CA 90024")
                                 .specialty("Sushi - Hand Rolls")
@@ -284,7 +276,6 @@ public class RestaurantsControllerTests extends ControllerTestCase {
                 // arrange
 
                 Restaurant kazunoriEdited = Restaurant.builder()
-                                .id(2l)
                                 .name("KazuNori")
                                 .address("1110 Gayley Ave, Los Angeles, CA 90024")
                                 .specialty("Sushi - Hand Rolls")

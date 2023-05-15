@@ -246,7 +246,7 @@ public class AmusementParksControllerTests extends ControllerTestCase{
                 AmusementPark UniversalStudioEdited = AmusementPark.builder()
                                 .name("UniversalStudio")
                                 .address("100 Universal City Plaza, Universal City, CA 91608")
-                                .description("A Universal Studio theme park built for Universal Studio film fans")
+                                .description("Universal theme park built for Universal film fans")
                                 .build();
 
                 String requestBody = mapper.writeValueAsString(UniversalStudioEdited);
