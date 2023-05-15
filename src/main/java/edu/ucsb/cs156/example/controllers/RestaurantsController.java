@@ -54,7 +54,6 @@ public class RestaurantsController extends ApiController {
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @PostMapping("/post")
     public Restaurant postRestaurants(
-        @ApiParam("id") @RequestParam Long id,
         @ApiParam("name") @RequestParam String name,
         @ApiParam("address") @RequestParam String address,
         @ApiParam("specialty") @RequestParam String specialty
@@ -62,7 +61,6 @@ public class RestaurantsController extends ApiController {
         {
 
         Restaurant restaurants = new Restaurant();
-        restaurants.setId(id);
         restaurants.setName(name);
         restaurants.setAddress(address);
         restaurants.setSpecialty(specialty);
@@ -76,7 +74,7 @@ public class RestaurantsController extends ApiController {
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @DeleteMapping("")
     public Object deleteRestaurants(
-            @ApiParam("code") @RequestParam Long id) {
+            @ApiParam("id") @RequestParam Long id) {
         Restaurant restaurants = restaurantsRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException(Restaurant.class, id));
 
@@ -88,14 +86,13 @@ public class RestaurantsController extends ApiController {
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @PutMapping("")
     public Restaurant updateRestaurants(
-            @ApiParam("code") @RequestParam Long id,
+            @ApiParam("id") @RequestParam Long id,
             @RequestBody @Valid Restaurant incoming) {
 
         Restaurant restaurants = restaurantsRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException(Restaurant.class, id));
 
 
-        restaurants.setId(incoming.getId());
         restaurants.setName(incoming.getName());
         restaurants.setAddress(incoming.getAddress());
         restaurants.setSpecialty(incoming.getSpecialty());
