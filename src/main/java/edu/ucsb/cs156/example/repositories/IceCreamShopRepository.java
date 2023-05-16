@@ -8,6 +8,6 @@ import edu.ucsb.cs156.example.entities.IceCreamShop;
 
 
 @Repository
-public interface IceCreamShopRepository extends CrudRepository<IceCreamShop, String> {
+public interface IceCreamShopRepository extends CrudRepository<IceCreamShop, Long> {
  
 }
