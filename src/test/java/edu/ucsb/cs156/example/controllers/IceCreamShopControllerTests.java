@@ -88,9 +88,9 @@ public class IceCreamShopControllerTests extends ControllerTestCase {
                 // arrange
 
                 IceCreamShop iceCreamShop = IceCreamShop.builder()
-                                .Name("IVDrip")
-                                .Address("EmbarcaderodelNorteIslaVistaCA")
-                                .Description("Quaintcompactcafeservinglocallyroastedcoffeealongsidehousemadebakedtreatsicecream")
+                                .name("IVDrip")
+                                .address("EmbarcaderodelNorteIslaVistaCA")
+                                .description("Quaintcompactcafeservinglocallyroastedcoffeealongsidehousemadebakedtreatsicecream")
                                 .build();
 
                 when(iceCreamShopRepository.findById(eq(7L))).thenReturn(Optional.of(iceCreamShop));
@@ -134,15 +134,15 @@ public class IceCreamShopControllerTests extends ControllerTestCase {
                 // arrange
 
                 IceCreamShop ivdrip = IceCreamShop.builder()
-                                .Name("IVDrip")
-                                .Address("EmbarcaderodelNorteIslaVistaCA")
-                                .Description("Quaintcompactcafeservinglocallyroastedcoffeealongsidehousemadebakedtreatsicecream")
+                                .name("IVDrip")
+                                .address("EmbarcaderodelNorteIslaVistaCA")
+                                .description("Quaintcompactcafeservinglocallyroastedcoffeealongsidehousemadebakedtreatsicecream")
                                 .build();
 
                 IceCreamShop yogurtland = IceCreamShop.builder()
-                                .Name("Yogurtland")
-                                .Address("CalleRealGoletaCA")
-                                .Description("Outpostofalocalchainofferingselfservefrozenyogurttoppingsinacontemporaryspace")
+                                .name("Yogurtland")
+                                .address("CalleRealGoletaCA")
+                                .description("Outpostofalocalchainofferingselfservefrozenyogurttoppingsinacontemporaryspace")
                                 .build();
 
                 ArrayList<IceCreamShop> expectedIceCreamShops = new ArrayList<>();
@@ -168,16 +168,16 @@ public class IceCreamShopControllerTests extends ControllerTestCase {
                 // arrange
 
                 IceCreamShop iceCreamShop1 = IceCreamShop.builder()
-                                .Name("test")
-                                .Address("test1")
-                                .Description("test2")
+                                .name("test")
+                                .address("test1")
+                                .description("test2")
                                 .build();
 
                 when(iceCreamShopRepository.save(eq(iceCreamShop1))).thenReturn(iceCreamShop1);
 
                 // act
                 MvcResult response = mockMvc.perform(
-                                post("/api/icecreamshop/post?Name=test&Address=test1&Description=test2")
+                                post("/api/icecreamshop/post?name=test&address=test1&description=test2")
                                                 .with(csrf()))
                                 .andExpect(status().isOk()).andReturn();
 
@@ -194,9 +194,9 @@ public class IceCreamShopControllerTests extends ControllerTestCase {
                 // arrange
 
                 IceCreamShop baskinrobbins = IceCreamShop.builder()
-                                .Name("BaskinRobbins")
-                                .Address("StateStSantaBarbaraCA")
-                                .Description("Colorfulicecreamparlorchainknownforitsmanyflavorsplussorbetyogurt")
+                                .name("BaskinRobbins")
+                                .address("StateStSantaBarbaraCA")
+                                .description("Colorfulicecreamparlorchainknownforitsmanyflavorsplussorbetyogurt")
                                 .build();
 
                 when(iceCreamShopRepository.findById(eq(15L))).thenReturn(Optional.of(baskinrobbins));
@@ -241,15 +241,15 @@ public class IceCreamShopControllerTests extends ControllerTestCase {
                 // arrange
 
                 IceCreamShop ivdripOrig = IceCreamShop.builder()
-                                .Name("IVDrip")
-                                .Address("EmbarcaderodelNorteIslaVistaCA")
-                                .Description("Quaintcompactcafeservinglocallyroastedcoffeealongsidehousemadebakedtreatsicecream")
+                                .name("IVDrip")
+                                .address("EmbarcaderodelNorteIslaVistaCA")
+                                .description("Quaintcompactcafeservinglocallyroastedcoffeealongsidehousemadebakedtreatsicecream")
                                 .build();
 
                 IceCreamShop ivdripEdited = IceCreamShop.builder()
-                                .Name("ivdrip")
-                                .Address("EmbarcaderodelNorteGoletaCA")
-                                .Description("Quaintcompactcafeservinglocallyroastedcoffeealongsidehousemadebakedtreatsicecream")
+                                .name("ivdrip")
+                                .address("EmbarcaderodelNorteGoletaCA")
+                                .description("Quaintcompactcafeservinglocallyroastedcoffeealongsidehousemadebakedtreatsicecream")
                                 .build();
 
                 String requestBody = mapper.writeValueAsString(ivdripEdited);
@@ -278,9 +278,9 @@ public class IceCreamShopControllerTests extends ControllerTestCase {
                 // arrange
 
                 IceCreamShop editedIceCreamShop = IceCreamShop.builder()
-                                .Name("ivdrip")
-                                .Address("EmbarcaderodelNorteGoletaCA")
-                                .Description("Quaintcompactcafeservinglocallyroastedcoffeealongsidehousemadebakedtreatsicecream")
+                                .name("ivdrip")
+                                .address("EmbarcaderodelNorteGoletaCA")
+                                .description("Quaintcompactcafeservinglocallyroastedcoffeealongsidehousemadebakedtreatsicecream")
                                 .build();
 
                 String requestBody = mapper.writeValueAsString(editedIceCreamShop);

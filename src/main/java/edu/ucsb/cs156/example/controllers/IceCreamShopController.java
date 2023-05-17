@@ -54,16 +54,16 @@ public class IceCreamShopController extends ApiController {
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @PostMapping("/post")
     public IceCreamShop postIceCreamShop(
-        @ApiParam("Name") @RequestParam String Name,
-        @ApiParam("Address") @RequestParam String Address,
-        @ApiParam("Description") @RequestParam String Description
+        @ApiParam("name") @RequestParam String name,
+        @ApiParam("address") @RequestParam String address,
+        @ApiParam("description") @RequestParam String description
         )
         {
 
         IceCreamShop iceCreamShop = new IceCreamShop();
-        iceCreamShop.setName(Name);
-        iceCreamShop.setAddress(Address);
-        iceCreamShop.setDescription(Description);
+        iceCreamShop.setName(name);
+        iceCreamShop.setAddress(address);
+        iceCreamShop.setDescription(description);
 
         IceCreamShop savedIceCreamShop = iceCreamShopRepository.save(iceCreamShop);
 
