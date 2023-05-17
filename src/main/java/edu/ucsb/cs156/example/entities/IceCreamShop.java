@@ -20,7 +20,7 @@ public class IceCreamShop {
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private long id;
 
-  private String Name;
-  private String Address;
-  private String Description;
+  private String name;
+  private String address;
+  private String description;
 }
