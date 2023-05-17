@@ -168,16 +168,16 @@ public class IceCreamShopControllerTests extends ControllerTestCase {
                 // arrange
 
                 IceCreamShop iceCreamShop1 = IceCreamShop.builder()
-                                .name("test")
-                                .address("test1")
-                                .description("test2")
+                                .name("Yogurtland")
+                                .address("CalleRealGoletaCA")
+                                .description("Outpostofalocalchainofferingselfservefrozenyogurttoppingsinacontemporaryspace")
                                 .build();
 
                 when(iceCreamShopRepository.save(eq(iceCreamShop1))).thenReturn(iceCreamShop1);
 
                 // act
                 MvcResult response = mockMvc.perform(
-                                post("/api/icecreamshop/post?name=test&address=test1&description=test2")
+                                post("/api/icecreamshop/post?name=Yogurtland&address=CalleRealGoletaCA&description=Outpostofalocalchainofferingselfservefrozenyogurttoppingsinacontemporaryspace")
                                                 .with(csrf()))
                                 .andExpect(status().isOk()).andReturn();
 
