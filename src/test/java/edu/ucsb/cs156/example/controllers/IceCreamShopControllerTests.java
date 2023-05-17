@@ -167,23 +167,23 @@ public class IceCreamShopControllerTests extends ControllerTestCase {
         public void an_admin_user_can_post_a_new_iceCreamShop() throws Exception {
                 // arrange
 
-                IceCreamShop game1 = IceCreamShop.builder()
-                                .Name("Bucket Montage")
-                                .Address("Plum")
-                                .Description("RPG")
+                IceCreamShop iceCreamShop1 = IceCreamShop.builder()
+                                .Name("test")
+                                .Address("test1")
+                                .Description("test2")
                                 .build();
 
-                when(iceCreamShopRepository.save(eq(game1))).thenReturn(game1);
+                when(iceCreamShopRepository.save(eq(iceCreamShop1))).thenReturn(iceCreamShop1);
 
                 // act
                 MvcResult response = mockMvc.perform(
-                                post("/api/games/post?Name=Bucket Montage&Address=Plum&Description=RPG")
+                                post("/api/icecreamshop/post?Name=test&Address=test1&Description=test2")
                                                 .with(csrf()))
                                 .andExpect(status().isOk()).andReturn();
 
                 // assert
-                verify(iceCreamShopRepository, times(1)).save(game1);
-                String expectedJson = mapper.writeValueAsString(game1);
+                verify(iceCreamShopRepository, times(1)).save(iceCreamShop1);
+                String expectedJson = mapper.writeValueAsString(iceCreamShop1);
                 String responseString = response.getResponse().getContentAsString();
                 assertEquals(expectedJson, responseString);
         }
