@@ -249,7 +249,7 @@ public class IceCreamShopControllerTests extends ControllerTestCase {
                 IceCreamShop ivdripEdited = IceCreamShop.builder()
                                 .name("ivdrip")
                                 .address("EmbarcaderodelNorteGoletaCA")
-                                .description("Quaintcompactcafeservinglocallyroastedcoffeealongsidehousemadebakedtreatsicecream")
+                                .description("Quaintcompactcafe")
                                 .build();
 
                 String requestBody = mapper.writeValueAsString(ivdripEdited);
